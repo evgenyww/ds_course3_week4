@@ -23,9 +23,10 @@ Transformation steps
 Dataset files
 =============
 
- - 'output/x.csv' - X values in comma sparated format, where every column is a variable, every row is a measurement. See the list of variables below.
- - 'output/y.csv' - y values with one filed "activity.name".
- - 'output/means_activity_subjects.csv' - comma separated dataset with the average of each variable for each activity and each subject. See the list of variables below.
+ - 'x.csv' - X values in comma sparated format, where every column is a variable, every row is a measurement. See the list of variables below.
+ - 'y.csv' - y values with one filed "activity.name".
+ - 'subject.csv' - list of sunjects.
+ - 'means_activity_subjects.csv' - comma separated dataset with the average of each variable for each activity and each subject. See the list of variables below.
 
 Variables
 =========

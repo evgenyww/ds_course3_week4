@@ -24,7 +24,7 @@ run_analysis <- function() {
   # Merge the training and the test sets to create one data set
   # Appropriately label the data set with descriptive variable names
   ## bind "x" sets
-  x = bind_rows(
+  X = bind_rows(
     read.delim("test/X_test.txt", sep = "", col.names = features[,"name"], header = FALSE),
     read.delim("train/X_train.txt", sep = "", col.names = features[,"name"], header = FALSE)
   )
@@ -43,7 +43,7 @@ run_analysis <- function() {
   
   # Extract only the measurements on the mean and standard deviation for each measurement.
   ## leave only columns containing ".mean" and "\.std" 
-  x = select(x, grep(".mean|.std", names(x), value = TRUE))
+  X = select(X, grep(".mean|.std", names(X), value = TRUE))
   
   # Uses descriptive activity names to name the activities in the data set
   # Replace numerical values in y by their descriptive names
@@ -55,15 +55,16 @@ run_analysis <- function() {
   ## - merge x, y, and subject into one set, 
   ## - group by "activity.name" and "subject", 
   ## - sumarize with mean for all columns
-  means_activity_subject = bind_cols(y, subject, x) %>% group_by(activity.name, subject) %>% summarise_all(funs(mean))
+  means_activity_subject = bind_cols(y, subject, X) %>% group_by(activity.name, subject) %>% summarise_all(funs(mean))
   
   # Save sets
   ## create / recreate output folder "output" into the workspace
-  unlink("output", recursive = FALSE, force = FALSE)
+  unlink("output", recursive = TRUE, force = FALSE)
   dir.create("output", showWarnings = FALSE)
   ## save sets
-  write.csv(x, "output/X.csv")
+  write.csv(X, "output/X.csv")
   write.csv(y, "output/y.csv")
+  write.csv(subject, "output/subject.csv")
   write.csv(means_activity_subject, "output/means_activity_subjects.csv")
   
 }

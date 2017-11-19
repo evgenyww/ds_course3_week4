@@ -48,14 +48,14 @@ run_analysis <- function() {
   # Uses descriptive activity names to name the activities in the data set
   # Replace numerical values in y by their descriptive names
   activity_labels = read.delim("activity_labels.txt", sep = "", col.names = c("activity.code", "activity.name"), header = FALSE)
-  y = merge(y, activity_labels, by = "activity.code")["activity.name"]
+  y = left_join(y, activity_labels, by = "activity.code")
   
   # Create a second, independent tidy data set
   # with the average of each variable for each activity and each subject.
   ## - merge x, y, and subject into one set, 
   ## - group by "activity.name" and "subject", 
   ## - sumarize with mean for all columns
-  means_activity_subject = bind_cols(y, subject, X) %>% group_by(activity.name, subject) %>% summarise_all(funs(mean))
+  means_activity_subject = bind_cols(y, subject, X) %>% group_by(activity.code, activity.name, subject) %>% summarise_all(funs(mean), na.rm = TRUE)
   
   # Save sets
   ## create / recreate output folder "output" into the workspace
@@ -65,6 +65,5 @@ run_analysis <- function() {
   write.csv(X, "output/X.csv")
   write.csv(y, "output/y.csv")
   write.csv(subject, "output/subject.csv")
-  write.csv(means_activity_subject, "output/means_activity_subjects.csv")
-  
+  write.table(means_activity_subject, "output/means_activity_subject.csv", row.name=FALSE)
 }
